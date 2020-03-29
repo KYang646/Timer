@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     let countLabel = UILabel()
     var timer: Timer!
     var count = 0
+    var loopCount = 0
     
     
     override func viewDidLoad() {
@@ -23,7 +24,7 @@ class ViewController: UIViewController {
         view.backgroundColor = .random()
         
         // Timer runs the changeBackground func every 1.0 seconds
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementCountLabel), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(incrementCountLabel), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -41,9 +42,23 @@ class ViewController: UIViewController {
     }
     
     @objc func incrementCountLabel() {
-        count += 1
-        countLabel.text = String(count)
+        count += 1 // Increments the count by 1 and then saves the value
+        countLabel.text = String(count) // Changes the label to count value
+        view.backgroundColor = .random() // Randomizes background color
+        
+                    while count > 9 {
+                        view.backgroundColor = .brown
+                        count = 0
+                        loopCount += 1
+                        print(loopCount)
+                            if loopCount > 3 {
+                                countLabel.textColor = .white
+                                self.timer.invalidate() // This stops the timer after this function loops 3 times 10 times
+                            }
+                }
     }
+
+        
 
     func configureLabel() {
         view.addSubview(countLabel)
