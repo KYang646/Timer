@@ -45,6 +45,12 @@ class ViewController: UIViewController {
         count += 1 // Increments the count by 1 and then saves the value
         countLabel.text = String(count) // Changes the label to count value
         view.backgroundColor = .random() // Randomizes background color
+        countLabel.alpha -= CGFloat(Double(count) * 0.01)
+        print(CGFloat(Double(count) * 0.01))
+        
+        if countLabel.alpha < 0.1 {
+            countLabel.alpha = 1.0
+        }
         
                     while count > 9 {
                         view.backgroundColor = .brown
@@ -52,9 +58,20 @@ class ViewController: UIViewController {
                         loopCount += 1
                         print("Loop# \(loopCount)")
                         
+                        
+//                        switch countLabel.textColor {
+//                            case UIColor.black:
+//                                self.countLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(10 * count))
+//                            case UIColor.white:
+//                                self.countLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(10 * count))
+//                            default:
+//                                print("woops")
+//                        }
+                        
                         switch loopCount % 2 {
                             case 0:
                                     countLabel.textColor = .black
+//                                    countLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(10 * count))
                             case 1:
                                     countLabel.textColor = .white
                             default:
@@ -64,7 +81,7 @@ class ViewController: UIViewController {
                                 countLabel.textColor = .white
                                 self.timer.invalidate() // This stops the timer after this function loops 3 times 10 times
                             }
-                }
+                    }
     }
 
         
