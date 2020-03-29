@@ -12,20 +12,37 @@ class ViewController: UIViewController {
 
     let countLabel = UILabel()
     var timer: Timer!
-    
+    var count = 0
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureLabel()
+        
+        // Changes the background color to a random color when it loads
         view.backgroundColor = .random()
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(changeBackground), userInfo: nil, repeats: true)
+        
+        // Timer runs the changeBackground func every 1.0 seconds
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementCountLabel), userInfo: nil, repeats: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        timer.invalidate()
     }
     
     @objc func changeBackground() {
         view.backgroundColor = .random()
         
-        
+        // Stops the timer after 5 seconds
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.timer.invalidate()
+        }
+    }
+    
+    @objc func incrementCountLabel() {
+        count += 1
+        countLabel.text = String(count)
     }
 
     func configureLabel() {
