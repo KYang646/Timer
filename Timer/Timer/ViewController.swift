@@ -50,7 +50,16 @@ class ViewController: UIViewController {
                         view.backgroundColor = .brown
                         count = 0
                         loopCount += 1
-                        print(loopCount)
+                        print("Loop# \(loopCount)")
+                        
+                        switch loopCount % 2 {
+                            case 0:
+                                    countLabel.textColor = .black
+                            case 1:
+                                    countLabel.textColor = .white
+                            default:
+                                print("Nope")
+                        }
                             if loopCount > 3 {
                                 countLabel.textColor = .white
                                 self.timer.invalidate() // This stops the timer after this function loops 3 times 10 times
