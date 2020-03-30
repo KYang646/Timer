@@ -12,8 +12,12 @@ class ViewController: UIViewController {
 
     let countLabel = UILabel()
     var timer: Timer!
-    var count = 0
+    var count = 1
     var loopCount = 0
+    
+    lazy var numberPosition: NSLayoutConstraint = {
+        countLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+    }()
     
     
     override func viewDidLoad() {
@@ -46,41 +50,53 @@ class ViewController: UIViewController {
         countLabel.text = String(count) // Changes the label to count value
         view.backgroundColor = .random() // Randomizes background color
         countLabel.alpha -= CGFloat(Double(count) * 0.01)
-        print(CGFloat(Double(count) * 0.01))
+        print(CGFloat(10 * count))
+        print((CGFloat(10 * count)) - (CGFloat(10 * count) * 2))
         
         if countLabel.alpha < 0.1 {
             countLabel.alpha = 1.0
         }
         
-                    while count > 9 {
-                        view.backgroundColor = .brown
-                        count = 0
-                        loopCount += 1
-                        print("Loop# \(loopCount)")
+        switch loopCount % 2 {
+            case 0:
+                countLabel.textColor = .black
+                
+                let oldOffset = numberPosition.constant
+                numberPosition.constant = oldOffset - 10
+                UIView.animate(withDuration: 2) { [unowned self] in
+                    self.view.layoutIfNeeded()
+                }
+            case 1:
+                countLabel.textColor = .white
+                let oldOffset = numberPosition.constant
+                numberPosition.constant = oldOffset + 10
+                UIView.animate(withDuration: 2) { [unowned self] in
+                    self.view.layoutIfNeeded()
+                }
+            default:
+                print("woops")
+        }
+        
+        /*
+         
+         let oldOffset = blueSquareCenterYConstraint.constant
+         blueSquareCenterYConstraint.constant = oldOffset - 150
+         UIView.animate(withDuration: 2) { [unowned self] in
+             self.view.layoutIfNeeded()
+         }
+         
+         */
+        
+                while count > 9 {
+                    view.backgroundColor = .brown
+                    count = 1
+                    loopCount += 1
+                    print("Loop# \(loopCount)")
                         
-                        
-//                        switch countLabel.textColor {
-//                            case UIColor.black:
-//                                self.countLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(10 * count))
-//                            case UIColor.white:
-//                                self.countLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(10 * count))
-//                            default:
-//                                print("woops")
-//                        }
-                        
-                        switch loopCount % 2 {
-                            case 0:
-                                    countLabel.textColor = .black
-//                                    countLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(10 * count))
-                            case 1:
-                                    countLabel.textColor = .white
-                            default:
-                                print("Nope")
+                    if loopCount > 10 {
+                        countLabel.textColor = .white
+                        self.timer.invalidate() // This stops the timer after this function loops 3 times 10 times
                         }
-                            if loopCount > 3 {
-                                countLabel.textColor = .white
-                                self.timer.invalidate() // This stops the timer after this function loops 3 times 10 times
-                            }
                     }
     }
 
@@ -100,13 +116,8 @@ class ViewController: UIViewController {
             countLabel.widthAnchor.constraint(equalToConstant: 300),
 
         ])
-        
-        
-        
+        print("configggg")
     }
 
-    
-    
-    
 }
 
